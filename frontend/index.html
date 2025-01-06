@@ -12,11 +12,11 @@
         <form id="sepForm">
             <div class="mb-3">
                 <label for="sepDigits" class="form-label">2 Digit Nomor SEP (8-11)</label>
-                <input type="text" class="form-control" id="sepDigits" maxlength="4" required>
+                <input type="text" class="form-control" id="sepDigits" required>
             </div>
             <div class="mb-3">
                 <label for="sepDigits2" class="form-label">6 Digit Nomor SEP (13-18)</label>
-                <input type="text" class="form-control" id="sepDigits2" maxlength="6" required>
+                <input type="text" class="form-control" id="sepDigits2" required>
             </div>
             <button type="submit" class="btn btn-primary">Ambil Data</button>
         </form>
@@ -24,9 +24,16 @@
 
     <script>
         document.getElementById('sepForm').addEventListener('submit', function(event) {
-            event.preventDefault();
             const sepDigits = document.getElementById('sepDigits').value;
             const sepDigits2 = document.getElementById('sepDigits2').value;
+
+            // Validasi untuk memastikan hanya angka yang dimasukkan
+            if (!/^\d+$/.test(sepDigits) || !/^\d+$/.test(sepDigits2)) {
+                alert('Silakan masukkan hanya angka.');
+                event.preventDefault(); // Mencegah pengiriman formulir
+                return;
+            }
+
             // Redirect to Page 2 with parameters
             window.location.href = `page2.html?sep1=${sepDigits}&sep2=${sepDigits2}`;
         });
