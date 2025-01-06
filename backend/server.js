@@ -11,10 +11,10 @@ app.use(bodyParser.json());
 
 // PostgreSQL connection
 const pool = new Pool({
-    user: 'your_username',
+    user: 'postgres',
     host: 'localhost',
-    database: 'your_database',
-    password: 'your_password',
+    database: 'sepapp',
+    password: 'Adv4ncing',
     port: 5432,
 });
 
@@ -22,8 +22,8 @@ const pool = new Pool({
 app.get('/data', async (req, res) => {
     const { sep1, sep2 } = req.query;
     try {
-        const result = await pool.query('SELECT * FROM your_table WHERE sep1 = $1 AND sep2 = $2', [sep1, sep2]);
-        res.json(result.rows[0] || {});
+      const result = await pool.query('SELECT * FROM your_table WHERE nomor_sep = $1 AND nomor_kartu = $2', [sep1, sep2]);        
+      res.json(result.rows[0] || {});
     } catch (err) {
         console.error(err);
         res.status(500).send('Server error');
@@ -34,7 +34,7 @@ app.get('/data', async (req, res) => {
 app.post('/data', async (req, res) => {
     const data = req.body;
     try {
-        const result = await pool.query('INSERT INTO your_table (nomor_kartu, ...) VALUES ($1, ...) RETURNING *', [data.nomor_kartu, ...]);
+        const result = await pool.query('INSERT INTO data (nomor_kartu, ...) VALUES ($1, ...) RETURNING *', [data.nomor_sep, data.nomor_kartu]);
         res.json(result.rows[0]);
     } catch (err) {
         console.error(err);
